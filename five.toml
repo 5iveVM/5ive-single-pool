@@ -1,0 +1,30 @@
+# 5IVE VM Project Configuration
+[project]
+name = "5ive-single-pool"
+version = "0.1.0"
+description = "5IVE port of SPL single-pool with CU comparison"
+source_dir = "src"
+build_dir = "build"
+entry_point = "src/main.v"
+target = "vm"
+
+[optimizations]
+enable_compression = true
+enable_constraint_optimization = true
+optimization_level = "production"
+
+[dependencies]
+# Add project dependencies here
+# example = { path = "../example" }
+# future: stdlib package source (v1 uses compiler-bundled stdlib)
+# five-stdlib = { version = "0.1.0" }
+
+[build]
+# Custom build settings
+max_bytecode_size = 1048576  # 1MB
+target_compute_units = 200000
+
+[deploy]
+# Deployment settings
+network = "devnet"
+# program_id = "your-program-id"
