@@ -2,7 +2,7 @@
 
 This project is the current best-effort 5IVE port of SPL `single-pool` from:
 
-- `/Users/ivmidable/Development/solana-program-library/single-pool/program`
+- `solana-program-library/single-pool/program` (upstream SPL source)
 
 ## Current Port Status
 
@@ -33,9 +33,9 @@ Those issues are recorded in [DSL_GAPS_REPORT.md](/Users/ivmidable/Development/f
 
 ```bash
 cd /Users/ivmidable/Development/five-mono/5ive-single-pool
-5ive build
+node ../five-cli/dist/index.js build --project .
 node ../five-cli/dist/index.js test --sdk-runner
-5ive test --filter "test_*" --verbose
+node ../five-cli/dist/index.js test --filter "test_*" --verbose
 node ./client/compare-cu.mjs
 npm --prefix client run flow:local
 ```
