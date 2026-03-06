@@ -1,0 +1,89 @@
+{
+  "name": "single_pool_reactivate_pool_stake",
+  "bytecode_path": "../build/main.five",
+  "permissions": 0,
+  "extra_accounts": [
+    {
+      "name": "pool",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "vote",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "pool_stake",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "pool_stake_authority",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "clock_sysvar",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "stake_history_sysvar",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "stake_config_sysvar",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    }
+  ],
+  "steps": [
+    {
+      "name": "reactivate_pool_stake",
+      "function_index": 12,
+      "params": [
+        { "kind": "pubkey_account", "account": "vote" },
+        { "kind": "pubkey_account", "account": "pool" },
+        { "kind": "pubkey_account", "account": "pool_stake" },
+        { "kind": "pubkey_account", "account": "pool_stake_authority" },
+        { "kind": "pubkey_account", "account": "clock_sysvar" },
+        { "kind": "pubkey_account", "account": "stake_history_sysvar" },
+        { "kind": "pubkey_account", "account": "stake_config_sysvar" },
+        { "kind": "pubkey_account", "account": "pool" },
+        { "kind": "pubkey_account", "account": "pool_stake" },
+        { "kind": "pubkey_account", "account": "pool_stake_authority" }
+      ],
+      "expected": "success"
+    }
+  ]
+}

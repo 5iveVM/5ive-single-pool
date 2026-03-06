@@ -1,163 +1,58 @@
-# 5IVE VM Project
+# 5IVE Single Pool
 
-A basic project built with 5IVE VM.
+This project is the current best-effort 5IVE port of SPL `single-pool` from:
 
-## Getting Started
+- `/Users/ivmidable/Development/solana-program-library/single-pool/program`
 
-### Prerequisites
+## Current Port Status
 
-- Node.js 18+
-- 5IVE CLI: `npm install -g @5ive-tech/cli`
+The contract in [src/main.v](/Users/ivmidable/Development/five-mono/5ive-single-pool/src/main.v) is now a stateful partial port rather than the earlier arithmetic-only scaffold:
 
-### Building
+- It defines a typed `SinglePoolState` account with the same minimal persistent fields as upstream.
+- It preserves the six upstream public instruction names.
+- It implements the core deposit and withdraw math.
+- It performs live CPI for stake reactivation and SPL token mint/burn.
+- It uses seeded `@init(...)` and `@pda(seeds=[...])` constraints for canonical pool, mint, and authority validation instead of pushing expected PDA pubkeys through the ABI.
+- It implements `create_token_metadata` and `update_token_metadata` as real, stateful metadata management on the pool account, guarded by a stored manager authority via `@has(manager)`.
+- It includes a local `MetadataProgram` interface for Metaplex token-metadata CPI, with the raw field layout flattened to match SPL's inlined encoding.
+- It stores canonical pool stake/mint and authority addresses in `SinglePoolState` and enforces them across deposit/withdraw flows.
+- It applies strict anti-aliasing guards across account inputs for pool instructions.
 
-```bash
-# Compile the project
-npm run build
+The remaining gaps are in the DSL/compiler and VM surface, not in the project structure.
 
-# Compile with optimizations
-npm run build:release
+## Current Limits
 
-# Compile with debug information
-npm run build:debug
-```
+- The port is now constraint-first, but direct in-body `derive_pda(...)` remains worth validating after your global CLI picks up the upstream fix.
+- The port now has fully functional native metadata management, and a local Metaplex interface is present, but the current compiler still rejects the actual string-bearing Metaplex call site.
+- Checked SPL token variants such as `mint_to_checked` and `burn_checked` are still inconsistent across toolchains, so the stable path remains plain `mint_to` and `burn`.
+- Legacy non-SDK test discovery does not find the same tests the SDK runner executes.
 
-### Testing
+Those issues are recorded in [DSL_GAPS_REPORT.md](/Users/ivmidable/Development/five-mono/5ive-single-pool/DSL_GAPS_REPORT.md) so another agent can address the DSL/VM side directly.
 
-#### Discover and Run Tests
-
-5IVE CLI discovers test functions from your `tests/*.v` files using `pub test_*`:
-
-```bash
-# Run all tests
-npm test
-
-# Run with watch mode for continuous testing
-5ive test --watch
-
-# Run specific tests by filter
-5ive test --filter "test_add"
-
-# Run with verbose output
-5ive test --verbose
-
-# Run with JSON output for CI/CD
-5ive test --format json
-
-# Run on-chain tests (local/devnet/mainnet)
-5ive test --on-chain --target local
-5ive test --on-chain --target devnet
-5ive test --on-chain --target mainnet --allow-mainnet-tests --max-cost-sol 0.5
-```
-
-#### Writing Tests
-
-Test functions in your `.v` files use the `pub test_*` naming convention and include `@test-params` comments:
-
-```v
-// @test-params 10 20 30
-pub test_add(a: u64, b: u64) -> u64 {
-    return a + b;
-}
-
-// @test-params 5 2 10
-pub test_multiply(a: u64, b: u64) -> u64 {
-    return a * b;
-}
-```
-
-The `@test-params` comment specifies inputs. For non-void functions the last value is treated as expected result. The test runner will:
-1. Discover test functions automatically
-2. Compile the source file
-3. Execute with the specified parameters
-4. Validate the result matches
-
-For stateful on-chain tests, use companion fixture files (e.g. `tests/main.test.json`) to define per-test accounts/parameters.
-
-### Node Client
-
-Use the generated Node starter under `client/main.ts` for devnet/mainnet execution:
+## Commands
 
 ```bash
-# Build contract artifact first
-npm run build
-
-# Build and run on-chain client
-npm run client:build
-npm run client:run
-```
-
-The starter is self-contained (default devnet RPC, generated script-account file, payer auto-loading) and prints signature, `meta.err`, and CU.
-
-### Development
-
-```bash
-# Watch for changes and auto-compile
-npm run watch
-```
-
-### Deployment
-
-```bash
-# Deploy to devnet
-npm run deploy
-```
-
-## Project Structure
-
-- `src/` - 5IVE VM source files (.v)
-- `tests/` - Test files (.v files with test_* functions)
-- `client/` - Node TypeScript client starter (FiveProgram + ABI)
-- `build/` - Compiled bytecode
-- `docs/` - Documentation
-- `five.toml` - Project configuration
-
-## Standard Library (Bundled v1)
-
-Projects initialized with `5ive init` use compiler-bundled stdlib modules.
-
-Use explicit imports in your modules:
-
-```v
-use std::builtins;
-use std::interfaces::spl_token;
-use std::interfaces::system_program;
-
-pub transfer_tokens(
-  source: account @mut,
-  destination: account @mut,
-  authority: account @signer
-) {
-  spl_token::transfer(source, destination, authority, 1);
-}
-```
-
-See `docs/STDLIB.md` for bundled stdlib module details.
-
-### Local Development CLI Note
-
-If your globally installed `5ive` binary behaves differently from this repo source, run the local CLI directly:
-
-```bash
-node ./five-cli/dist/index.js init my-project
-```
-
-## Multi-File Projects
-
-If your project uses multiple modules with `use` or `import` statements, 5IVE CLI automatically handles:
-
-```bash
-# Build from five.toml entry_point using compiler-owned discovery
+cd /Users/ivmidable/Development/five-mono/5ive-single-pool
 5ive build
+node ../five-cli/dist/index.js test --sdk-runner
+5ive test --filter "test_*" --verbose
+node ./client/compare-cu.mjs
+npm --prefix client run flow:local
 ```
 
-## Learn More
+## File Map
 
-- [5IVE VM Documentation](https://five-vm.dev)
-- [5IVE VM GitHub](https://github.com/five-vm)
-- [Multi-File Compilation Guide](./docs/multi-file.md)
-- [Examples](./examples)
-
-## License
-
-MIT
+- [src/main.v](/Users/ivmidable/Development/five-mono/5ive-single-pool/src/main.v): stateful contract and partial CPI port
+- [tests/main.test.v](/Users/ivmidable/Development/five-mono/5ive-single-pool/tests/main.test.v): deterministic helper tests
+- [client/scenarios.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/scenarios.mjs): ABI-aligned scenario definitions
+- [client/setup-single-pool.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/setup-single-pool.mjs): local setup scaffold
+- [client/create-and-delegate-user-stake.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/create-and-delegate-user-stake.mjs): deposit-account helper scaffold
+- [run-localnet-lst-flow.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/run-localnet-lst-flow.mjs): localnet initialize/deposit/withdraw flow with token-delta checks (currently blocked by runtime init/PDA signer behavior on this VM build)
+- [client/run-five-flow.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/run-five-flow.mjs): 5IVE-side flow scaffold
+- [client/run-spl-flow.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/run-spl-flow.mjs): SPL-side flow scaffold
+- [client/compare-cu.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/compare-cu.mjs): CU report writer
+- [runtime-fixtures/initialize_pool.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/runtime-fixtures/initialize_pool.json): ABI-aligned initialize fixture
+- [runtime-fixtures/deposit_stake.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/runtime-fixtures/deposit_stake.json): ABI-aligned deposit fixture
+- [runtime-fixtures/withdraw_stake.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/runtime-fixtures/withdraw_stake.json): ABI-aligned withdraw fixture
+- [runtime-fixtures/reactivate_pool_stake.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/runtime-fixtures/reactivate_pool_stake.json): ABI-aligned reactivate fixture
+- [benchmarks/results/single-pool-cu-report.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/benchmarks/results/single-pool-cu-report.json): CU comparison scaffold output

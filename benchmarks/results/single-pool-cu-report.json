@@ -1,0 +1,35 @@
+[
+  {
+    "scenario": "initialize_pool",
+    "spl_signature": null,
+    "five_signature": null,
+    "spl_compute_units": null,
+    "five_compute_units": null,
+    "delta_absolute": null,
+    "delta_percent": null,
+    "status": "scaffold",
+    "notes": "Populate by running live SPL and 5IVE flows against the same scenario."
+  },
+  {
+    "scenario": "deposit_stake",
+    "spl_signature": null,
+    "five_signature": null,
+    "spl_compute_units": null,
+    "five_compute_units": null,
+    "delta_absolute": null,
+    "delta_percent": null,
+    "status": "scaffold",
+    "notes": "Populate by running live SPL and 5IVE flows against the same scenario."
+  },
+  {
+    "scenario": "withdraw_stake",
+    "spl_signature": null,
+    "five_signature": null,
+    "spl_compute_units": null,
+    "five_compute_units": null,
+    "delta_absolute": null,
+    "delta_percent": null,
+    "status": "scaffold",
+    "notes": "Populate by running live SPL and 5IVE flows against the same scenario."
+  }
+]

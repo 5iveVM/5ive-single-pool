@@ -1,0 +1,86 @@
+{
+  "name": "single_pool_initialize_pool",
+  "bytecode_path": "../build/main.five",
+  "permissions": 0,
+  "extra_accounts": [
+    {
+      "name": "pool",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": true,
+      "executable": false
+    },
+    {
+      "name": "payer",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": true,
+      "is_writable": true,
+      "executable": false
+    },
+    {
+      "name": "vote",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "pool_stake",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "pool_mint",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "pool_stake_authority",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "pool_mint_authority",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    }
+  ],
+  "steps": [
+    {
+      "name": "initialize_pool",
+      "function_index": 11,
+      "params": [
+        { "kind": "pubkey_account", "account": "pool" },
+        { "kind": "pubkey_account", "account": "payer" },
+        { "kind": "pubkey_account", "account": "vote" },
+        { "kind": "pubkey_account", "account": "pool_stake" },
+        { "kind": "pubkey_account", "account": "pool_mint" },
+        { "kind": "pubkey_account", "account": "pool_stake_authority" },
+        { "kind": "pubkey_account", "account": "pool_mint_authority" }
+      ],
+      "expected": "success"
+    }
+  ]
+}

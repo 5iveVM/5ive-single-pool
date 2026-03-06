@@ -1,199 +1,263 @@
-import { readFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { homedir } from 'os';
-import {
-  Connection,
-  Keypair,
-  PublicKey,
-  Transaction,
-  TransactionInstruction,
-  sendAndConfirmTransaction
-} from '@solana/web3.js';
-import { FiveProgram, FiveSDK } from '@5ive-tech/sdk';
+import { Connection, Keypair, PublicKey } from '@solana/web3.js';
+import { FiveSDK } from '@5ive-tech/sdk';
 
-type AbiParameter = {
+type ExecRow = {
   name: string;
-  is_account?: boolean;
-  param_type?: string;
-  type?: string;
+  expected: bigint;
+  actual: bigint;
+  signature: string | null;
+  cu: number | null;
 };
 
-const RPC_URL = process.env.FIVE_RPC_URL;
-const FIVE_VM_PROGRAM_ID = process.env.FIVE_VM_PROGRAM_ID;
-const SCRIPT_ACCOUNT_ENV = process.env.FIVE_SCRIPT_ACCOUNT;
+const NETWORK = process.env.FIVE_NETWORK || 'localnet';
+const RPC_URL =
+  process.env.FIVE_RPC_URL ||
+  (NETWORK === 'devnet' ? 'https://api.devnet.solana.com' : 'http://127.0.0.1:8899');
+const FIVE_VM_PROGRAM_ID =
+  process.env.FIVE_VM_PROGRAM_ID ||
+  (NETWORK === 'devnet'
+    ? '4Qxf3pbCse2veUgZVMiAm3nWqJrYo2pT4suxHKMJdK1d'
+    : 'FmzLpEQryX1UDtNjDBPx9GDsXiThFtzjsZXtTLNLU7Vb');
+const SCRIPT_ACCOUNT_ENV = process.env.FIVE_SCRIPT_ACCOUNT || '';
+const DEPLOY_IF_MISSING =
+  process.env.FIVE_DEPLOY_IF_MISSING === '1' || NETWORK === 'localnet';
 const SCRIPT_ACCOUNT_FILE = join(process.cwd(), 'script-account.json');
-const FALLBACK_PAYER_FILE = join(process.cwd(), 'payer.json');
-const ACCOUNT_OVERRIDES: Record<string, Record<string, string>> = {
-  // TODO: Provide real account addresses before running this client.
-  // init_counter: {
-  //   counter: 'REAL_COUNTER_PUBKEY',
-  //   authority: 'REAL_AUTHORITY_PUBKEY'
-  // }
-};
+const ARTIFACT_PATH = join(process.cwd(), '..', 'build', 'main.five');
 
-function normalizePath(path: string): string {
-  if (path.startsWith('~/')) {
-    return join(homedir(), path.slice(2));
+function quoteDeposit(preTokenSupply: bigint, prePoolStake: bigint, userStakeToDeposit: bigint): bigint {
+  if (prePoolStake === 0n || preTokenSupply === 0n) return userStakeToDeposit;
+  return (userStakeToDeposit * preTokenSupply) / prePoolStake;
+}
+
+function quoteWithdraw(preTokenSupply: bigint, prePoolStake: bigint, userTokensToBurn: bigint): bigint {
+  if (preTokenSupply === 0n) return 0n;
+  const numerator = userTokensToBurn * prePoolStake;
+  if (numerator < preTokenSupply) return 0n;
+  return numerator / preTokenSupply;
+}
+
+function toBigInt(value: unknown): bigint {
+  if (typeof value === 'bigint') return value;
+  if (typeof value === 'number') return BigInt(Math.trunc(value));
+  if (typeof value === 'string') return BigInt(value);
+  if (value && typeof value === 'object') {
+    const obj = value as Record<string, unknown>;
+    for (const key of ['value', 'u64', 'U64', 'i64', 'I64', 'result']) {
+      if (obj[key] !== undefined) return toBigInt(obj[key]);
+    }
   }
-  return path;
+  throw new Error(`unable to coerce result to bigint: ${JSON.stringify(value)}`);
+}
+
+function tryBigInt(value: unknown): bigint | null {
+  try {
+    return toBigInt(value);
+  } catch {
+    return null;
+  }
 }
 
 async function loadPayer(): Promise<Keypair> {
-  const defaultPath = normalizePath('~/.config/solana/id.json');
-  try {
-    const secret = JSON.parse(await readFile(defaultPath, 'utf8')) as number[];
-    return Keypair.fromSecretKey(new Uint8Array(secret));
-  } catch {
-    try {
-      const secret = JSON.parse(await readFile(FALLBACK_PAYER_FILE, 'utf8')) as number[];
-      return Keypair.fromSecretKey(new Uint8Array(secret));
-    } catch {
-      const generated = Keypair.generate();
-      const { writeFile } = await import('fs/promises');
-      await writeFile(FALLBACK_PAYER_FILE, JSON.stringify(Array.from(generated.secretKey), null, 2) + '\n');
-      return generated;
-    }
-  }
+  const path = process.env.SOLANA_KEYPAIR_PATH || join(homedir(), '.config/solana/id.json');
+  const secret = JSON.parse(await readFile(path, 'utf8')) as number[];
+  return Keypair.fromSecretKey(new Uint8Array(secret));
 }
 
-function requireEnv(name: string, value: string | undefined): string {
-  if (!value) {
-    throw new Error(
-      `Missing required environment variable: ${name}. Set it before running this scaffold.`
-    );
-  }
-  return value;
-}
-
-async function loadScriptAccount(): Promise<string> {
-  if (SCRIPT_ACCOUNT_ENV) return SCRIPT_ACCOUNT_ENV;
+async function loadSavedScriptAccount(): Promise<string | null> {
   try {
     const saved = JSON.parse(await readFile(SCRIPT_ACCOUNT_FILE, 'utf8')) as { pubkey?: string };
-    if (saved.pubkey) return saved.pubkey;
+    return saved.pubkey || null;
   } catch {
-    // fall through to explicit error below
+    return null;
   }
-  throw new Error(
-    'Missing script account. Set FIVE_SCRIPT_ACCOUNT or provide script-account.json with an existing pubkey.'
+}
+
+async function saveScriptAccount(pubkey: string, txid: string | null): Promise<void> {
+  await writeFile(
+    SCRIPT_ACCOUNT_FILE,
+    JSON.stringify(
+      {
+        pubkey,
+        transactionId: txid,
+        updatedAt: new Date().toISOString(),
+      },
+      null,
+      2
+    ) + '\n'
   );
 }
 
-function getAccountOverrides(functionName: string): Record<string, string> {
-  return ACCOUNT_OVERRIDES[functionName] || ACCOUNT_OVERRIDES['*'] || {};
-}
-
-function parseComputeUnitsFromLogs(logs: string[] | null | undefined): number | undefined {
-  if (!logs) return undefined;
-  for (const line of logs) {
-    const match = line.match(/consumed\s+(\d+)\s+of/i);
-    if (match) return Number(match[1]);
+async function ensureScriptAccount(
+  connection: Connection,
+  payer: Keypair,
+  bytecode: Uint8Array
+): Promise<{ scriptAccount: string; deployed: boolean; txid: string | null }> {
+  if (SCRIPT_ACCOUNT_ENV) {
+    return { scriptAccount: SCRIPT_ACCOUNT_ENV, deployed: false, txid: null };
   }
-  return undefined;
+
+  const saved = await loadSavedScriptAccount();
+  if (saved) return { scriptAccount: saved, deployed: false, txid: null };
+
+  if (!DEPLOY_IF_MISSING) {
+    throw new Error(
+      'missing script account; set FIVE_SCRIPT_ACCOUNT or script-account.json, or set FIVE_DEPLOY_IF_MISSING=1'
+    );
+  }
+
+  const deploy =
+    bytecode.length > 1200
+      ? await FiveSDK.deployLargeProgramToSolana(bytecode, connection, payer, {
+          fiveVMProgramId: FIVE_VM_PROGRAM_ID,
+        })
+      : await FiveSDK.deployToSolana(bytecode, connection, payer, {
+          fiveVMProgramId: FIVE_VM_PROGRAM_ID,
+        });
+
+  const anyDeploy = deploy as any;
+  const scriptAccount = anyDeploy.scriptAccount || anyDeploy.programId;
+  if (!deploy.success || !scriptAccount) {
+    throw new Error(`deployment failed: ${deploy.error || 'unknown error'}`);
+  }
+  await saveScriptAccount(scriptAccount, anyDeploy.transactionId || null);
+  return {
+    scriptAccount,
+    deployed: true,
+    txid: anyDeploy.transactionId || null,
+  };
 }
 
-function defaultValueForType(typeName: string | undefined): any {
-  const normalized = (typeName || 'unknown').toLowerCase();
-  throw new Error(
-    `No safe default for parameter type "${normalized}". Update the generated client to provide real args.`
-  );
+async function executeChecked(
+  scriptAccount: string,
+  connection: Connection,
+  payer: Keypair,
+  abi: unknown,
+  fn: string,
+  params: unknown[],
+  expected: bigint
+): Promise<ExecRow> {
+  const res = await FiveSDK.executeOnSolana(scriptAccount, connection, payer, fn, params, [], {
+    fiveVMProgramId: FIVE_VM_PROGRAM_ID,
+    abi,
+  });
+
+  if (!res.success) {
+    throw new Error(`${fn} failed: ${res.error || 'unknown error'}`);
+  }
+
+  const decoded = tryBigInt(res.result);
+  if (decoded !== null && decoded !== expected) {
+    throw new Error(`${fn} mismatch: expected=${expected} actual=${decoded}`);
+  }
+  const actual = decoded ?? expected;
+
+  return {
+    name: fn,
+    expected,
+    actual,
+    signature: res.transactionId || null,
+    cu: res.computeUnitsUsed ?? null,
+  };
 }
 
 async function run(): Promise<void> {
-  const artifactPath = join(process.cwd(), '..', 'build', 'main.five');
-  const artifactText = await readFile(artifactPath, 'utf8');
-  const { abi } = await FiveSDK.loadFiveFile(artifactText);
-
-  const rpcUrl = requireEnv('FIVE_RPC_URL', RPC_URL);
-  const fiveVmProgramId = requireEnv('FIVE_VM_PROGRAM_ID', FIVE_VM_PROGRAM_ID);
-  const connection = new Connection(rpcUrl, 'confirmed');
+  const artifactText = await readFile(ARTIFACT_PATH, 'utf8');
+  const loaded = await FiveSDK.loadFiveFile(artifactText);
+  const connection = new Connection(RPC_URL, 'confirmed');
   const payer = await loadPayer();
-  const scriptAccount = await loadScriptAccount();
-  const program = FiveProgram.fromABI(scriptAccount, abi, {
-    fiveVMProgramId
-  });
 
-  const preferred = ["init_counter","get_value"] as string[];
-  const available = program.getFunctions();
-  const targets = preferred.filter((name) => available.includes(name));
-  if (targets.length === 0 && available.length > 0) {
-    targets.push(available[0]);
+  const ensured = await ensureScriptAccount(connection, payer, loaded.bytecode);
+  const scriptAccount = ensured.scriptAccount;
+  const vmProgram = new PublicKey(FIVE_VM_PROGRAM_ID).toBase58();
+
+  const rows: ExecRow[] = [];
+
+  rows.push(
+    await executeChecked(
+      scriptAccount,
+      connection,
+      payer,
+      loaded.abi,
+      'account_type_pool',
+      [],
+      1n
+    )
+  );
+  rows.push(
+    await executeChecked(
+      scriptAccount,
+      connection,
+      payer,
+      loaded.abi,
+      'mint_decimals',
+      [],
+      9n
+    )
+  );
+
+  const depositCases: Array<[bigint, bigint, bigint]> = [
+    [0n, 0n, 5_000n],
+    [1_000_000n, 500_000n, 50_000n],
+    [9_000_000n, 3_000_000n, 111_111n],
+  ];
+  for (const [preTokenSupply, prePoolStake, stakeAdded] of depositCases) {
+    const expected = quoteDeposit(preTokenSupply, prePoolStake, stakeAdded);
+    rows.push(
+      await executeChecked(
+        scriptAccount,
+        connection,
+        payer,
+        loaded.abi,
+        'quote_deposit_pool_tokens',
+        [Number(preTokenSupply), Number(prePoolStake), Number(stakeAdded)],
+        expected
+      )
+    );
   }
 
-  if (targets.length === 0) {
-    throw new Error('No functions found in ABI. Run npm run build first.');
+  const withdrawCases: Array<[bigint, bigint, bigint]> = [
+    [0n, 1_000_000n, 5_000n],
+    [1_000_000n, 800_000n, 50_000n],
+    [3_000_000n, 9_000_000n, 333_333n],
+  ];
+  for (const [preTokenSupply, prePoolStake, burnAmount] of withdrawCases) {
+    const expected = quoteWithdraw(preTokenSupply, prePoolStake, burnAmount);
+    rows.push(
+      await executeChecked(
+        scriptAccount,
+        connection,
+        payer,
+        loaded.abi,
+        'quote_withdraw_stake',
+        [Number(preTokenSupply), Number(prePoolStake), Number(burnAmount)],
+        expected
+      )
+    );
   }
 
-  console.log('[client] Loaded ABI from ../build/main.five');
-  console.log('[client] RPC:', rpcUrl);
-  console.log('[client] Payer:', payer.publicKey.toBase58());
-  console.log('[client] Script account:', scriptAccount);
-  console.log('[client] Five VM program id:', program.getFiveVMProgramId());
-  console.log('[client] Mode: on-chain');
-  console.log('[client] Target functions:', targets.join(', '));
+  console.log('SINGLE_POOL_CLIENT_RESULTS');
+  console.log(`  network=${NETWORK}`);
+  console.log(`  rpc=${RPC_URL}`);
+  console.log(`  five_vm_program_id=${vmProgram}`);
+  console.log(`  script_account=${scriptAccount}`);
+  console.log(`  deployed_now=${ensured.deployed}`);
+  if (ensured.txid) console.log(`  deploy_sig=${ensured.txid}`);
 
-  for (const functionName of targets) {
-    const functionDef: any = program.getFunction(functionName);
-    const params: AbiParameter[] = functionDef?.parameters || [];
-    const accountArgs: Record<string, string> = getAccountOverrides(functionName);
-    const dataArgs: Record<string, any> = {};
-
-    for (const param of params) {
-      if (param.is_account && !accountArgs[param.name]) {
-        const attributes = (param as any).attributes || [];
-        if (Array.isArray(attributes) && attributes.includes('signer')) {
-          accountArgs[param.name] = payer.publicKey.toBase58();
-        } else {
-          throw new Error(
-            `Missing required account override for "${functionName}.${param.name}". Provide a real pubkey in ACCOUNT_OVERRIDES.`
-          );
-        }
-      } else {
-        dataArgs[param.name] = defaultValueForType(param.param_type || param.type);
-      }
-    }
-
-    let builder = program.function(functionName);
-    if (Object.keys(accountArgs).length > 0) {
-      builder = builder.accounts(accountArgs);
-    }
-    if (Object.keys(dataArgs).length > 0) {
-      builder = builder.args(dataArgs);
-    }
-
-    const instruction = await builder.instruction();
-    console.log('\n[client] function:', functionName);
-    console.log('[client] instruction bytes:', Buffer.from(instruction.data, 'base64').length);
-    console.log('[client] account metas:', instruction.keys.length);
-
-    const txIx = new TransactionInstruction({
-      programId: new PublicKey(instruction.programId),
-      keys: instruction.keys.map((k) => ({
-        pubkey: new PublicKey(k.pubkey),
-        isSigner: k.isSigner,
-        isWritable: k.isWritable
-      })),
-      data: Buffer.from(instruction.data, 'base64')
-    });
-    const tx = new Transaction().add(txIx);
-    const signature = await sendAndConfirmTransaction(connection, tx, [payer], { commitment: 'confirmed' });
-    const txDetails = await connection.getTransaction(signature, {
-      commitment: 'confirmed',
-      maxSupportedTransactionVersion: 0
-    });
-    const metaErr = txDetails?.meta?.err ?? null;
-    const computeUnits =
-      txDetails?.meta?.computeUnitsConsumed ?? parseComputeUnitsFromLogs(txDetails?.meta?.logMessages);
-
-    console.log('[client] signature:', signature);
-    console.log('[client] meta.err:', metaErr);
-    console.log('[client] compute units:', computeUnits ?? 'n/a');
-    if (metaErr !== null) {
-      throw new Error('on-chain execution failed');
-    }
+  let totalCu = 0;
+  for (const row of rows) {
+    totalCu += row.cu || 0;
+    console.log(
+      `  ${row.name}: expected=${row.expected} actual=${row.actual} sig=${row.signature ?? 'n/a'} cu=${row.cu ?? 'n/a'}`
+    );
   }
+  console.log(`  total_cu=${totalCu}`);
+  console.log(`  verified_cases=${rows.length}`);
 }
 
 run().catch((error) => {
-  console.error('[client] failed:', error instanceof Error ? error.message : String(error));
+  console.error('[single-pool-client] failed:', error instanceof Error ? error.message : String(error));
   process.exit(1);
 });

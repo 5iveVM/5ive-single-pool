@@ -6,10 +6,16 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc --noEmit -p tsconfig.json",
-    "run": "npm run build && node dist/main.js"
+    "run": "npm run build && node dist/main.js",
+    "flow:local": "node ./run-localnet-lst-flow.mjs",
+    "setup": "node ./setup-single-pool.mjs",
+    "five": "node ./run-five-flow.mjs",
+    "spl": "node ./run-spl-flow.mjs",
+    "compare": "node ./compare-cu.mjs"
   },
   "dependencies": {
-    "@5ive-tech/sdk": "^1.1.7",
+    "@5ive-tech/sdk": "file:../../five-sdk",
+    "@solana/spl-token": "^0.4.14",
     "@solana/web3.js": "^1.98.4"
   },
   "devDependencies": {

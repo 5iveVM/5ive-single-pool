@@ -5,14 +5,22 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build": "5ive build",
-    "test": "5ive test",
-    "deploy": "5ive deploy",
-    "build:release": "5ive build -O 3",
-    "build:debug": "5ive build --debug",
-    "watch": "5ive build --watch",
+    "build": "node ../five-cli/dist/index.js build --project .",
+    "test": "node ../five-cli/dist/index.js test",
+    "test:sdk": "node ../five-cli/dist/index.js test --sdk-runner",
+    "test:verbose": "node ../five-cli/dist/index.js test --filter \"test_*\" --verbose",
+    "test:onchain:local": "FIVE_NETWORK=localnet npm run client:run",
+    "test:onchain:devnet": "FIVE_NETWORK=devnet npm run client:run",
+    "deploy": "node ../five-cli/dist/index.js deploy build/*.five --project .",
+    "build:release": "node ../five-cli/dist/index.js compile src/**/*.v -O 3",
+    "build:debug": "node ../five-cli/dist/index.js compile src/**/*.v --debug",
+    "watch": "node ../five-cli/dist/index.js compile src/**/*.v --watch",
     "client:build": "npm --prefix client install && npm --prefix client run build",
-    "client:run": "npm --prefix client install && npm --prefix client run run"
+    "client:run": "npm --prefix client install && npm --prefix client run run",
+    "client:setup": "node ./client/setup-single-pool.mjs",
+    "client:five": "node ./client/run-five-flow.mjs",
+    "client:spl": "node ./client/run-spl-flow.mjs",
+    "client:compare": "node ./client/compare-cu.mjs"
   },
   "devDependencies": {
     "@5ive-tech/cli": "^1.0.0"
