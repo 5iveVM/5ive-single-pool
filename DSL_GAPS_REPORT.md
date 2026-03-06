@@ -24,7 +24,7 @@ Requested feature/fix:
 
 Repro artifact:
 
-- [repros/derive_pda_stateful_failure.v](/Users/ivmidable/Development/five-mono/5ive-single-pool/repros/derive_pda_stateful_failure.v)
+- [repros/derive_pda_stateful_failure.v](repros/derive_pda_stateful_failure.v)
 
 ### 2. Metadata CPI with bounded strings is not currently practical
 
@@ -79,7 +79,7 @@ Requested feature/fix:
 Observed behavior:
 
 - `node ../five-cli/dist/index.js test --sdk-runner` executes the JSON-defined suite successfully.
-- `5ive test --filter "test_*" --verbose` reports no tests found in the same project state.
+- `node ../five-cli/dist/index.js test --filter "test_*" --verbose` reports no tests found in the same project state.
 
 Impact:
 

@@ -6,7 +6,7 @@ This project is the current best-effort 5IVE port of SPL `single-pool` from:
 
 ## Current Port Status
 
-The contract in [src/main.v](/Users/ivmidable/Development/five-mono/5ive-single-pool/src/main.v) is now a stateful partial port rather than the earlier arithmetic-only scaffold:
+The contract in [src/main.v](src/main.v) is now a stateful partial port rather than the earlier arithmetic-only scaffold:
 
 - It defines a typed `SinglePoolState` account with the same minimal persistent fields as upstream.
 - It preserves the six upstream public instruction names.
@@ -27,12 +27,12 @@ The remaining gaps are in the DSL/compiler and VM surface, not in the project st
 - Checked SPL token variants such as `mint_to_checked` and `burn_checked` are still inconsistent across toolchains, so the stable path remains plain `mint_to` and `burn`.
 - Legacy non-SDK test discovery does not find the same tests the SDK runner executes.
 
-Those issues are recorded in [DSL_GAPS_REPORT.md](/Users/ivmidable/Development/five-mono/5ive-single-pool/DSL_GAPS_REPORT.md) so another agent can address the DSL/VM side directly.
+Those issues are recorded in [DSL_GAPS_REPORT.md](DSL_GAPS_REPORT.md) so another agent can address the DSL/VM side directly.
 
 ## Commands
 
 ```bash
-cd /Users/ivmidable/Development/five-mono/5ive-single-pool
+cd 5ive-single-pool
 node ../five-cli/dist/index.js build --project .
 node ../five-cli/dist/index.js test --sdk-runner
 node ../five-cli/dist/index.js test --filter "test_*" --verbose
@@ -42,17 +42,17 @@ npm --prefix client run flow:local
 
 ## File Map
 
-- [src/main.v](/Users/ivmidable/Development/five-mono/5ive-single-pool/src/main.v): stateful contract and partial CPI port
-- [tests/main.test.v](/Users/ivmidable/Development/five-mono/5ive-single-pool/tests/main.test.v): deterministic helper tests
-- [client/scenarios.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/scenarios.mjs): ABI-aligned scenario definitions
-- [client/setup-single-pool.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/setup-single-pool.mjs): local setup scaffold
-- [client/create-and-delegate-user-stake.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/create-and-delegate-user-stake.mjs): deposit-account helper scaffold
-- [run-localnet-lst-flow.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/run-localnet-lst-flow.mjs): localnet initialize/deposit/withdraw flow with token-delta checks (currently blocked by runtime init/PDA signer behavior on this VM build)
-- [client/run-five-flow.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/run-five-flow.mjs): 5IVE-side flow scaffold
-- [client/run-spl-flow.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/run-spl-flow.mjs): SPL-side flow scaffold
-- [client/compare-cu.mjs](/Users/ivmidable/Development/five-mono/5ive-single-pool/client/compare-cu.mjs): CU report writer
-- [runtime-fixtures/initialize_pool.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/runtime-fixtures/initialize_pool.json): ABI-aligned initialize fixture
-- [runtime-fixtures/deposit_stake.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/runtime-fixtures/deposit_stake.json): ABI-aligned deposit fixture
-- [runtime-fixtures/withdraw_stake.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/runtime-fixtures/withdraw_stake.json): ABI-aligned withdraw fixture
-- [runtime-fixtures/reactivate_pool_stake.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/runtime-fixtures/reactivate_pool_stake.json): ABI-aligned reactivate fixture
-- [benchmarks/results/single-pool-cu-report.json](/Users/ivmidable/Development/five-mono/5ive-single-pool/benchmarks/results/single-pool-cu-report.json): CU comparison scaffold output
+- [src/main.v](src/main.v): stateful contract and partial CPI port
+- [tests/main.test.v](tests/main.test.v): deterministic helper tests
+- [client/scenarios.mjs](client/scenarios.mjs): ABI-aligned scenario definitions
+- [client/setup-single-pool.mjs](client/setup-single-pool.mjs): local setup scaffold
+- [client/create-and-delegate-user-stake.mjs](client/create-and-delegate-user-stake.mjs): deposit-account helper scaffold
+- [run-localnet-lst-flow.mjs](client/run-localnet-lst-flow.mjs): localnet initialize/deposit/withdraw flow with token-delta checks (currently blocked by runtime init/PDA signer behavior on this VM build)
+- [client/run-five-flow.mjs](client/run-five-flow.mjs): 5IVE-side flow scaffold
+- [client/run-spl-flow.mjs](client/run-spl-flow.mjs): SPL-side flow scaffold
+- [client/compare-cu.mjs](client/compare-cu.mjs): CU report writer
+- [runtime-fixtures/initialize_pool.json](runtime-fixtures/initialize_pool.json): ABI-aligned initialize fixture
+- [runtime-fixtures/deposit_stake.json](runtime-fixtures/deposit_stake.json): ABI-aligned deposit fixture
+- [runtime-fixtures/withdraw_stake.json](runtime-fixtures/withdraw_stake.json): ABI-aligned withdraw fixture
+- [runtime-fixtures/reactivate_pool_stake.json](runtime-fixtures/reactivate_pool_stake.json): ABI-aligned reactivate fixture
+- [benchmarks/results/single-pool-cu-report.json](benchmarks/results/single-pool-cu-report.json): CU comparison scaffold output
