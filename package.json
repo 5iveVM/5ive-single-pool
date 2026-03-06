@@ -11,6 +11,8 @@
     "test:verbose": "node ../five-cli/dist/index.js test --filter \"test_*\" --verbose",
     "test:onchain:local": "FIVE_NETWORK=localnet npm run client:run",
     "test:onchain:devnet": "FIVE_NETWORK=devnet npm run client:run",
+    "smoke": "npm run build && npm run test",
+    "smoke:onchain:local": "npm run build && npm run test:onchain:local",
     "deploy": "node ../five-cli/dist/index.js deploy build/*.five --project .",
     "build:release": "node ../five-cli/dist/index.js compile src/**/*.v -O 3",
     "build:debug": "node ../five-cli/dist/index.js compile src/**/*.v --debug",

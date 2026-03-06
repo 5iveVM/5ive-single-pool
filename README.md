@@ -1,5 +1,7 @@
 # 5IVE Single Pool
 
+This example is intentionally marked **advanced/experimental** and represents a partial parity port rather than a fully complete production parity implementation.
+
 This project is the current best-effort 5IVE port of SPL `single-pool` from:
 
 - `solana-program-library/single-pool/program` (upstream SPL source)
@@ -56,3 +58,4 @@ npm --prefix client run flow:local
 - [runtime-fixtures/withdraw_stake.json](runtime-fixtures/withdraw_stake.json): ABI-aligned withdraw fixture
 - [runtime-fixtures/reactivate_pool_stake.json](runtime-fixtures/reactivate_pool_stake.json): ABI-aligned reactivate fixture
 - [benchmarks/results/single-pool-cu-report.json](benchmarks/results/single-pool-cu-report.json): CU comparison scaffold output
+- [SCENARIOS.md](SCENARIOS.md): canonical local/on-chain run paths for the working subset
