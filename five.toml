@@ -1,8 +1,10 @@
+schema_version = 1
+
 # 5IVE VM Project Configuration
 [project]
 name = "5ive-single-pool"
-version = "0.1.0"
-description = "5IVE port of SPL single-pool with CU comparison"
+version = "1.0.1"
+description = "5IVE VM port of SPL single-pool (targeting SPL single-pool v1.0.1 parity)"
 source_dir = "src"
 build_dir = "build"
 entry_point = "src/main.v"
@@ -14,17 +16,20 @@ enable_constraint_optimization = true
 optimization_level = "production"
 
 [dependencies]
-# Add project dependencies here
-# example = { path = "../example" }
-# future: stdlib package source (v1 uses compiler-bundled stdlib)
-# five-stdlib = { version = "0.1.0" }
+std = { package = "@5ive/std", version = "0.1.0", source = "bundled", link = "inline" }
+# Cargo-style examples:
+# local_math = { package = "math-lib", source = "path", path = "../math-lib", link = "inline" }
+# external_oracle = { package = "@acme/oracle", source = "address", address = "SCRIPT_ACCOUNT_BASE58", link = "external" }
 
 [build]
 # Custom build settings
+output_artifact_name = "main"
 max_bytecode_size = 1048576  # 1MB
 target_compute_units = 200000
 
 [deploy]
-# Deployment settings
-network = "devnet"
-# program_id = "your-program-id"
+# Deployment settings (cluster is canonical; network remains a legacy alias)
+cluster = "localnet"
+commitment = "confirmed"
+rpc_url = "http://127.0.0.1:8899"
+# program_id = "FmzLpEQryX1UDtNjDBPx9GDsXiThFtzjsZXtTLNLU7Vb" # Five VM program on localnet

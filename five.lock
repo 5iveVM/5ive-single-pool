@@ -1,0 +1,34 @@
+version = 1
+
+[[packages]]
+name = "5ive-single-pool"
+version = "0.0.0"
+address = "AVMg4Czrn6q7Z2mPSWnynz621WQYXP2QrdDYoKsDKZyv"
+bytecode_hash = "c0b32ab019734bb15c1e39627e5810bacaec2702f7aa51e0934be20861795f36"
+deployed_at = "2026-03-05T20:03:33.805Z"
+
+  [packages.exports]
+  methods = [
+  "account_type_uninitialized",
+  "account_type_pool",
+  "mint_decimals",
+  "require_distinct",
+  "stake_authorize_staker",
+  "stake_authorize_withdrawer",
+  "derive_pool",
+  "derive_pool_stake",
+  "derive_pool_mint",
+  "derive_pool_stake_authority",
+  "derive_pool_mint_authority",
+  "derive_pool_mpl_authority",
+  "quote_deposit_pool_tokens",
+  "quote_withdraw_stake",
+  "initialize_pool",
+  "reactivate_pool_stake",
+  "deposit_stake",
+  "withdraw_stake",
+  "withdraw_excess_lamports",
+  "create_token_metadata",
+  "update_token_metadata"
+]
+  interfaces = [ ]
