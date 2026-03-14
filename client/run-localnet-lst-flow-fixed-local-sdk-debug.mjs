@@ -19,7 +19,7 @@ import { createMint, getOrCreateAssociatedTokenAccount, getAccount, TOKEN_PROGRA
 import { FiveSDK } from '@5ive-tech/sdk';
 
 const RPC_URL = process.env.FIVE_RPC_URL || 'http://127.0.0.1:8899';
-const FIVE_VM_PROGRAM_ID = process.env.FIVE_VM_PROGRAM_ID || 'FmzLpEQryX1UDtNjDBPx9GDsXiThFtzjsZXtTLNLU7Vb';
+const FIVE_VM_PROGRAM_ID = process.env.FIVE_VM_PROGRAM_ID || '5ive58PJUPaTyAe7tvU1bvBi25o7oieLLTRsJDoQNJst';
 const EXISTING_SCRIPT_ACCOUNT = process.env.FIVE_SCRIPT_ACCOUNT || '';
 
 function toBigInt(value) {
