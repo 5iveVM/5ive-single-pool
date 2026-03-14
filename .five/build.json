@@ -5,8 +5,8 @@
     "/Users/ivmidable/Development/five-mono/5ive-single-pool/src/main.v"
   ],
   "target": "vm",
-  "timestamp": "2026-03-06T21:24:00.805Z",
-  "hash": "5dcbadddd7872f9410baa352cf50ad2ad09b37c4b02d6645fed9bda4708bebe1",
+  "timestamp": "2026-03-07T10:28:42.841Z",
+  "hash": "522b2835146497e73b36e61eba31c7115f0fe2d7d16ec6bb9bb3b40e859ed388",
   "format": "five",
   "entry_point": "src/main.v",
   "source_dir": "src"

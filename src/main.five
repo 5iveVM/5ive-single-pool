@@ -1,0 +1,1184 @@
+{
+  "bytecode": "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",
+  "abi": {
+    "program_name": "Module",
+    "functions": [
+      {
+        "name": "account_type_uninitialized",
+        "index": 0,
+        "parameters": [],
+        "returnType": "u8",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "account_type_pool",
+        "index": 1,
+        "parameters": [],
+        "returnType": "u8",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "mint_decimals",
+        "index": 2,
+        "parameters": [],
+        "returnType": "u8",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "stake_authorize_staker",
+        "index": 3,
+        "parameters": [],
+        "returnType": "u32",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "stake_authorize_withdrawer",
+        "index": 4,
+        "parameters": [],
+        "returnType": "u32",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "derive_pool",
+        "index": 5,
+        "parameters": [
+          {
+            "name": "vote_account_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "(pubkey, u8)",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "derive_pool_stake",
+        "index": 6,
+        "parameters": [
+          {
+            "name": "pool_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "(pubkey, u8)",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "derive_pool_mint",
+        "index": 7,
+        "parameters": [
+          {
+            "name": "pool_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "(pubkey, u8)",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "derive_pool_stake_authority",
+        "index": 8,
+        "parameters": [
+          {
+            "name": "pool_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "(pubkey, u8)",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "derive_pool_mint_authority",
+        "index": 9,
+        "parameters": [
+          {
+            "name": "pool_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "(pubkey, u8)",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "derive_pool_mpl_authority",
+        "index": 10,
+        "parameters": [
+          {
+            "name": "pool_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "(pubkey, u8)",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "quote_deposit_pool_tokens",
+        "index": 11,
+        "parameters": [
+          {
+            "name": "pre_token_supply",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pre_pool_stake",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "user_stake_to_deposit",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "u64",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "quote_withdraw_stake",
+        "index": 12,
+        "parameters": [
+          {
+            "name": "pre_token_supply",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pre_pool_stake",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "user_tokens_to_burn",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "u64",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "initialize_pool",
+        "index": 13,
+        "parameters": [
+          {
+            "name": "pool",
+            "type": "SinglePoolState",
+            "param_type": "SinglePoolState",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut",
+              "init"
+            ]
+          },
+          {
+            "name": "payer",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut",
+              "signer"
+            ]
+          },
+          {
+            "name": "vote_account",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_stake",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_mint",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_stake_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_mint_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "clock_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "stake_history_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "stake_config_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          }
+        ],
+        "returnType": "u8",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "reactivate_pool_stake",
+        "index": 14,
+        "parameters": [
+          {
+            "name": "vote_account",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool",
+            "type": "SinglePoolState",
+            "param_type": "SinglePoolState",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_stake",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_stake_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "clock_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "stake_history_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "stake_config_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          }
+        ],
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "deposit_stake",
+        "index": 15,
+        "parameters": [
+          {
+            "name": "vote_account_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pool",
+            "type": "SinglePoolState",
+            "param_type": "SinglePoolState",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_stake",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_stake_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "user_stake_account",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "clock_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "stake_history_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_mint",
+            "type": "spl_token::Mint",
+            "param_type": "spl_token::Mint",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_mint_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "user_token_account",
+            "type": "spl_token::TokenAccount",
+            "param_type": "spl_token::TokenAccount",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "token_program",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "stake_program",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          }
+        ],
+        "returnType": "u64",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "deposit_stake_quote_only",
+        "index": 16,
+        "parameters": [
+          {
+            "name": "vote_account_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pool",
+            "type": "SinglePoolState",
+            "param_type": "SinglePoolState",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_mint",
+            "type": "spl_token::Mint",
+            "param_type": "spl_token::Mint",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_mint_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "user_token_account",
+            "type": "spl_token::TokenAccount",
+            "param_type": "spl_token::TokenAccount",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "token_program",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_token_supply",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pre_pool_stake",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "stake_added",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "u64",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "withdraw_stake_quote_only",
+        "index": 17,
+        "parameters": [
+          {
+            "name": "vote_account_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pool",
+            "type": "SinglePoolState",
+            "param_type": "SinglePoolState",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_mint",
+            "type": "spl_token::Mint",
+            "param_type": "spl_token::Mint",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_mint_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "user_token_account",
+            "type": "spl_token::TokenAccount",
+            "param_type": "spl_token::TokenAccount",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "token_program",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "user_stake_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "signer"
+            ]
+          },
+          {
+            "name": "token_amount",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pool_token_supply",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pre_pool_stake",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "u64",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "withdraw_stake",
+        "index": 18,
+        "parameters": [
+          {
+            "name": "vote_account_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pool",
+            "type": "SinglePoolState",
+            "param_type": "SinglePoolState",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_stake",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_stake_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_mint",
+            "type": "spl_token::Mint",
+            "param_type": "spl_token::Mint",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_mint_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "user_destination_stake",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "user_stake_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "signer"
+            ]
+          },
+          {
+            "name": "user_token_account",
+            "type": "spl_token::TokenAccount",
+            "param_type": "spl_token::TokenAccount",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "token_program",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "stake_program",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "clock_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "stake_history_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "token_amount",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "u64",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "withdraw_excess_lamports",
+        "index": 19,
+        "parameters": [
+          {
+            "name": "vote_account_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pool",
+            "type": "SinglePoolState",
+            "param_type": "SinglePoolState",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "has"
+            ]
+          },
+          {
+            "name": "pool_stake",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "pool_stake_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "destination_account",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "manager",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "signer"
+            ]
+          },
+          {
+            "name": "clock_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "stake_history_sysvar",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "lamports",
+            "type": "u64",
+            "param_type": "u64",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "bool",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "create_token_metadata",
+        "index": 20,
+        "parameters": [
+          {
+            "name": "vote_account_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pool",
+            "type": "SinglePoolState",
+            "param_type": "SinglePoolState",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut",
+              "has"
+            ]
+          },
+          {
+            "name": "pool_mint",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_mint_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "pool_mpl_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "manager",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "signer"
+            ]
+          },
+          {
+            "name": "metadata",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut"
+            ]
+          },
+          {
+            "name": "system_program_account",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "name",
+            "type": "string<32>",
+            "param_type": "string<32>",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "symbol",
+            "type": "string<10>",
+            "param_type": "string<10>",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "uri",
+            "type": "string<200>",
+            "param_type": "string<200>",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "bool",
+        "accounts": [],
+        "visibility": "public"
+      },
+      {
+        "name": "update_token_metadata",
+        "index": 21,
+        "parameters": [
+          {
+            "name": "vote_account_address",
+            "type": "pubkey",
+            "param_type": "pubkey",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "pool",
+            "type": "SinglePoolState",
+            "param_type": "SinglePoolState",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "mut",
+              "has"
+            ]
+          },
+          {
+            "name": "pool_mpl_authority",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "manager",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": [
+              "signer"
+            ]
+          },
+          {
+            "name": "metadata",
+            "type": "Account",
+            "param_type": "Account",
+            "optional": false,
+            "is_account": true,
+            "isAccount": true,
+            "attributes": []
+          },
+          {
+            "name": "name",
+            "type": "string<32>",
+            "param_type": "string<32>",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "symbol",
+            "type": "string<10>",
+            "param_type": "string<10>",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          },
+          {
+            "name": "uri",
+            "type": "string<200>",
+            "param_type": "string<200>",
+            "optional": false,
+            "is_account": false,
+            "isAccount": false,
+            "attributes": []
+          }
+        ],
+        "returnType": "bool",
+        "accounts": [],
+        "visibility": "public"
+      }
+    ],
+    "fields": [],
+    "version": "1.0"
+  },
+  "version": "1.0",
+  "metadata": {}
+}

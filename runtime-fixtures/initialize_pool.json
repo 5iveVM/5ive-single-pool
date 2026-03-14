@@ -36,7 +36,7 @@
       "lamports": 1000000,
       "data_len": 0,
       "is_signer": false,
-      "is_writable": false,
+      "is_writable": true,
       "executable": false
     },
     {
@@ -65,6 +65,33 @@
       "is_signer": false,
       "is_writable": false,
       "executable": false
+    },
+    {
+      "name": "clock_sysvar",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "stake_history_sysvar",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
+    },
+    {
+      "name": "stake_config_sysvar",
+      "owner": "system",
+      "lamports": 1000000,
+      "data_len": 0,
+      "is_signer": false,
+      "is_writable": false,
+      "executable": false
     }
   ],
   "steps": [
@@ -78,7 +105,10 @@
         { "kind": "pubkey_account", "account": "pool_stake" },
         { "kind": "pubkey_account", "account": "pool_mint" },
         { "kind": "pubkey_account", "account": "pool_stake_authority" },
-        { "kind": "pubkey_account", "account": "pool_mint_authority" }
+        { "kind": "pubkey_account", "account": "pool_mint_authority" },
+        { "kind": "pubkey_account", "account": "clock_sysvar" },
+        { "kind": "pubkey_account", "account": "stake_history_sysvar" },
+        { "kind": "pubkey_account", "account": "stake_config_sysvar" }
       ],
       "expected": "success"
     }

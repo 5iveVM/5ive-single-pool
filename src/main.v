@@ -107,10 +107,6 @@ pub mint_decimals() -> u8 {
     return 9;
 }
 
-pub require_distinct(a: pubkey, b: pubkey) {
-    require(a != b);
-}
-
 pub stake_authorize_staker() -> u32 {
     return 0;
 }
@@ -176,24 +172,16 @@ pub initialize_pool(
     pool: SinglePoolState @mut @init(payer=payer, space=240, seeds=["pool", vote_account.ctx.key]),
     payer: account @mut @signer,
     vote_account: account,
-    pool_stake: account,
-    pool_mint: account,
+    pool_stake: account @mut @pda(seeds=["stake", pool]),
+    pool_mint: account @pda(seeds=["mint", pool]),
     pool_stake_authority: account @pda(seeds=["stake_authority", pool]),
-    pool_mint_authority: account @pda(seeds=["mint_authority", pool])
+    pool_mint_authority: account @pda(seeds=["mint_authority", pool]),
+    clock_sysvar: account,
+    stake_history_sysvar: account,
+    stake_config_sysvar: account
 ) -> u8 {
-    require_distinct(payer.ctx.key, vote_account.ctx.key);
-    require_distinct(pool.ctx.key, payer.ctx.key);
-    require_distinct(pool.ctx.key, vote_account.ctx.key);
-    require_distinct(pool.ctx.key, pool_stake.ctx.key);
-    require_distinct(pool.ctx.key, pool_mint.ctx.key);
-    require_distinct(pool.ctx.key, pool_stake_authority.ctx.key);
-    require_distinct(pool.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(pool_stake.ctx.key, pool_mint.ctx.key);
-    require_distinct(pool_stake.ctx.key, pool_stake_authority.ctx.key);
-    require_distinct(pool_stake.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(pool_mint.ctx.key, pool_stake_authority.ctx.key);
-    require_distinct(pool_mint.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(pool_stake_authority.ctx.key, pool_mint_authority.ctx.key);
+    require(pool.account_type == account_type_uninitialized());
+    require(pool_stake.ctx.lamports > 0);
 
     pool.account_type = account_type_pool();
     pool.vote_account_address = vote_account.ctx.key;
@@ -204,6 +192,16 @@ pub initialize_pool(
     pool.pool_mint_authority_address = pool_mint_authority.ctx.key;
     pool.metadata_initialized = false;
     pool.lp_supply = 0;
+
+    StakeProgram::delegate_stake(
+        pool_stake,
+        vote_account,
+        clock_sysvar,
+        stake_history_sysvar,
+        stake_config_sysvar,
+        pool_stake_authority
+    );
+
     return pool.account_type;
 }
 
@@ -249,17 +247,6 @@ pub deposit_stake(
     require(pool.pool_mint_address == pool_mint.ctx.key);
     require(pool.pool_stake_authority_address == pool_stake_authority.ctx.key);
     require(pool.pool_mint_authority_address == pool_mint_authority.ctx.key);
-    require_distinct(pool_stake.ctx.key, user_stake_account.ctx.key);
-    require_distinct(pool_stake.ctx.key, pool_mint.ctx.key);
-    require_distinct(pool_stake.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(pool_stake.ctx.key, user_token_account.ctx.key);
-    require_distinct(pool_stake.ctx.key, pool_stake_authority.ctx.key);
-    require_distinct(pool_mint.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(pool_mint.ctx.key, user_token_account.ctx.key);
-    require_distinct(pool_mint_authority.ctx.key, user_token_account.ctx.key);
-    require_distinct(user_stake_account.ctx.key, pool_mint.ctx.key);
-    require_distinct(user_stake_account.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(user_stake_account.ctx.key, pool_stake_authority.ctx.key);
     require(user_token_account.mint == pool_mint.ctx.key);
     let pre_pool_stake: u64 = pool_stake.ctx.lamports;
     let stake_added: u64 = user_stake_account.ctx.lamports;
@@ -282,7 +269,7 @@ pub deposit_stake(
     return new_pool_tokens;
 }
 
-deposit_stake_quote_only(
+pub deposit_stake_quote_only(
     vote_account_address: pubkey,
     pool: SinglePoolState @pda(seeds=["pool", vote_account_address]),
     pool_mint: spl_token::Mint @mut @serializer("raw"),
@@ -297,9 +284,6 @@ deposit_stake_quote_only(
     require(pool.vote_account_address == vote_account_address);
     require(pool.pool_mint_address == pool_mint.ctx.key);
     require(pool.pool_mint_authority_address == pool_mint_authority.ctx.key);
-    require_distinct(pool_mint.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(pool_mint.ctx.key, user_token_account.ctx.key);
-    require_distinct(pool_mint_authority.ctx.key, user_token_account.ctx.key);
     require(stake_added > 0);
 
     let new_pool_tokens = quote_deposit_pool_tokens(pool_token_supply, pre_pool_stake, stake_added);
@@ -309,7 +293,7 @@ deposit_stake_quote_only(
     return new_pool_tokens;
 }
 
-withdraw_stake_quote_only(
+pub withdraw_stake_quote_only(
     vote_account_address: pubkey,
     pool: SinglePoolState @pda(seeds=["pool", vote_account_address]),
     pool_mint: spl_token::Mint @mut @serializer("raw"),
@@ -325,10 +309,6 @@ withdraw_stake_quote_only(
     require(pool.vote_account_address == vote_account_address);
     require(pool.pool_mint_address == pool_mint.ctx.key);
     require(pool.pool_mint_authority_address == pool_mint_authority.ctx.key);
-    require_distinct(user_stake_authority.ctx.key, pool.ctx.key);
-    require_distinct(pool_mint.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(pool_mint.ctx.key, user_token_account.ctx.key);
-    require_distinct(pool_mint_authority.ctx.key, user_token_account.ctx.key);
     require(pool_token_supply > 0);
     require(token_amount <= pool_token_supply);
     require(token_amount > 0);
@@ -363,19 +343,6 @@ pub withdraw_stake(
     require(pool.pool_mint_address == pool_mint.ctx.key);
     require(pool.pool_stake_authority_address == pool_stake_authority.ctx.key);
     require(pool.pool_mint_authority_address == pool_mint_authority.ctx.key);
-    require_distinct(user_stake_authority.ctx.key, pool.ctx.key);
-    require_distinct(pool_stake.ctx.key, user_destination_stake.ctx.key);
-    require_distinct(pool_stake.ctx.key, pool_stake_authority.ctx.key);
-    require_distinct(pool_stake.ctx.key, pool_mint.ctx.key);
-    require_distinct(pool_stake.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(pool_stake.ctx.key, user_token_account.ctx.key);
-    require_distinct(pool_mint.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(pool_mint.ctx.key, user_token_account.ctx.key);
-    require_distinct(pool_mint_authority.ctx.key, user_token_account.ctx.key);
-    require_distinct(user_destination_stake.ctx.key, pool_mint.ctx.key);
-    require_distinct(user_destination_stake.ctx.key, pool_mint_authority.ctx.key);
-    require_distinct(user_destination_stake.ctx.key, pool_stake_authority.ctx.key);
-    require_distinct(user_destination_stake.ctx.key, user_stake_authority.ctx.key);
     require(user_token_account.mint == pool_mint.ctx.key);
     let pre_pool_stake: u64 = pool_stake.ctx.lamports;
     require(pool.lp_supply > 0);
@@ -432,12 +399,6 @@ pub withdraw_excess_lamports(
     require(pool.vote_account_address == vote_account_address);
     require(pool.pool_stake_address == pool_stake.ctx.key);
     require(pool.pool_stake_authority_address == pool_stake_authority.ctx.key);
-    require_distinct(manager.ctx.key, destination_account.ctx.key);
-    require_distinct(manager.ctx.key, pool_stake.ctx.key);
-    require_distinct(manager.ctx.key, pool_stake_authority.ctx.key);
-    require_distinct(destination_account.ctx.key, pool.ctx.key);
-    require_distinct(destination_account.ctx.key, pool_stake.ctx.key);
-    require_distinct(destination_account.ctx.key, pool_stake_authority.ctx.key);
     require(lamports > 0);
 
     StakeProgram::withdraw(
@@ -469,13 +430,6 @@ pub create_token_metadata(
     require(pool.pool_mint_address == pool_mint.ctx.key);
     require(pool.pool_mint_authority_address == pool_mint_authority.ctx.key);
     require(!pool.metadata_initialized);
-    require_distinct(manager.ctx.key, metadata.ctx.key);
-    require_distinct(metadata.ctx.key, pool_mint.ctx.key);
-    require_distinct(pool_mpl_authority.ctx.key, metadata.ctx.key);
-    require_distinct(pool_mint_authority.ctx.key, pool_mpl_authority.ctx.key);
-    require_distinct(pool_mint_authority.ctx.key, metadata.ctx.key);
-    require_distinct(manager.ctx.key, pool_mint.ctx.key);
-    require_distinct(manager.ctx.key, pool_mpl_authority.ctx.key);
     require(name != "");
     require(symbol != "");
     require(uri != "");
@@ -497,11 +451,6 @@ pub update_token_metadata(
     require(pool.account_type == account_type_pool());
     require(pool.vote_account_address == vote_account_address);
     require(pool.metadata_initialized);
-    require_distinct(pool_mpl_authority.ctx.key, metadata.ctx.key);
-    require_distinct(manager.ctx.key, pool.ctx.key);
-    require_distinct(metadata.ctx.key, pool.ctx.key);
-    require_distinct(manager.ctx.key, metadata.ctx.key);
-    require_distinct(manager.ctx.key, pool_mpl_authority.ctx.key);
     require(name != "");
     require(symbol != "");
     require(uri != "");

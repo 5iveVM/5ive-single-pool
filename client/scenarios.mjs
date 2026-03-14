@@ -16,9 +16,22 @@ export const SCENARIOS = [
     }
   },
   {
+    name: 'reactivate_pool_stake',
+    fiveFunction: 'reactivate_pool_stake',
+    functionIndex: 13,
+    inCuComparison: true,
+    notes: 'Pool stake re-delegation after deactivation period',
+    parameters: {
+      pool: 'POOL_PLACEHOLDER',
+      pool_stake: 'POOL_STAKE_PLACEHOLDER',
+      pool_stake_authority: 'STAKE_AUTH_PLACEHOLDER',
+      vote_account: 'VOTE_PLACEHOLDER'
+    }
+  },
+  {
     name: 'deposit_stake',
     fiveFunction: 'deposit_stake',
-    functionIndex: 13,
+    functionIndex: 14,
     inCuComparison: true,
     notes: 'Pool-token mint parity with live mint CPI scaffolded',
     parameters: {
@@ -35,7 +48,7 @@ export const SCENARIOS = [
   {
     name: 'withdraw_stake',
     fiveFunction: 'withdraw_stake',
-    functionIndex: 14,
+    functionIndex: 17,
     inCuComparison: true,
     notes: 'Pool-token burn parity with live burn CPI scaffolded',
     parameters: {
