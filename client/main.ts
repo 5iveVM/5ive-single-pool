@@ -19,8 +19,8 @@ const RPC_URL =
 const FIVE_VM_PROGRAM_ID =
   process.env.FIVE_VM_PROGRAM_ID ||
   (NETWORK === 'devnet'
-    ? '5ive58PJUPaTyAe7tvU1bvBi25o7oieLLTRsJDoQNJst'
-    : '5ive58PJUPaTyAe7tvU1bvBi25o7oieLLTRsJDoQNJst');
+    ? '5ive5uKDkc3Yhyfu1Sk7i3eVPDQUmG2GmTm2FnUZiTJd'
+    : '5ive5uKDkc3Yhyfu1Sk7i3eVPDQUmG2GmTm2FnUZiTJd');
 const SCRIPT_ACCOUNT_ENV = process.env.FIVE_SCRIPT_ACCOUNT || '';
 const DEPLOY_IF_MISSING =
   process.env.FIVE_DEPLOY_IF_MISSING === '1' || NETWORK === 'localnet';
