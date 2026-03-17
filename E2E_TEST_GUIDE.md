@@ -25,7 +25,7 @@ solana-test-validator --reset
 export FIVE_NETWORK=localnet
 export FIVE_RPC_URL=http://127.0.0.1:8899
 export FIVE_KEYPAIR_PATH=$HOME/.config/solana/id.json
-export FIVE_PROGRAM_ID=5ive58PJUPaTyAe7tvU1bvBi25o7oieLLTRsJDoQNJst
+export FIVE_PROGRAM_ID=5ive5uKDkc3Yhyfu1Sk7i3eVPDQUmG2GmTm2FnUZiTJd
 
 # 3. Navigate to project
 cd /Users/ivmidable/Development/five-mono/5ive-single-pool

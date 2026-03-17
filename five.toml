@@ -32,4 +32,4 @@ target_compute_units = 200000
 cluster = "localnet"
 commitment = "confirmed"
 rpc_url = "http://127.0.0.1:8899"
-# program_id = "5ive58PJUPaTyAe7tvU1bvBi25o7oieLLTRsJDoQNJst" # Five VM program on localnet
+# program_id = "5ive5uKDkc3Yhyfu1Sk7i3eVPDQUmG2GmTm2FnUZiTJd" # Five VM program on localnet
