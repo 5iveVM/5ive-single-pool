@@ -11,7 +11,7 @@ cd "$SCRIPT_DIR"
 export FIVE_NETWORK="${FIVE_NETWORK:-localnet}"
 export FIVE_RPC_URL="${FIVE_RPC_URL:-http://127.0.0.1:8899}"
 export FIVE_KEYPAIR_PATH="${FIVE_KEYPAIR_PATH:-$HOME/.config/solana/id.json}"
-export FIVE_PROGRAM_ID="${FIVE_PROGRAM_ID:-5ive5uKDkc3Yhyfu1Sk7i3eVPDQUmG2GmTm2FnUZiTJd}"
+export FIVE_PROGRAM_ID="${FIVE_PROGRAM_ID:-5ive5hbC3aRsvq37MP5m4sHtTSFxT4Cq1smS4ddyWJ6h}"
 
 echo "============================================================================"
 echo "5ive Single-Pool E2E Test Suite"
