@@ -8,8 +8,8 @@ const RPC_URL = process.env.FIVE_RPC_URL ||
     (NETWORK === 'devnet' ? 'https://api.devnet.solana.com' : 'http://127.0.0.1:8899');
 const FIVE_VM_PROGRAM_ID = process.env.FIVE_VM_PROGRAM_ID ||
     (NETWORK === 'devnet'
-        ? '5ive5hbC3aRsvq37MP5m4sHtTSFxT4Cq1smS4ddyWJ6h'
-        : 'FmzLpEQryX1UDtNjDBPx9GDsXiThFtzjsZXtTLNLU7Vb');
+        ? '55555SyrYLzydvDMBhAL8uo6h4WETHTm81z8btf6nAVJ'
+        : '55555SyrYLzydvDMBhAL8uo6h4WETHTm81z8btf6nAVJ');
 const SCRIPT_ACCOUNT_ENV = process.env.FIVE_SCRIPT_ACCOUNT || '';
 const DEPLOY_IF_MISSING = process.env.FIVE_DEPLOY_IF_MISSING === '1' || NETWORK === 'localnet';
 const SCRIPT_ACCOUNT_FILE = join(process.cwd(), 'script-account.json');
